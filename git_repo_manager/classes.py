@@ -2,7 +2,6 @@
 from simple_manager.utils import git_clone
 from shutil import copytree
 
-import git_repo_manager
 import os
 
 
@@ -24,6 +23,7 @@ class Repository():
         print("Commiting changes to {0}").format(self.remote_url)
 
     def extract_repo(self, frm, to):
+        import git_repo_manager
         pkg_name = frm.split('/')[-1]
         path = os.path.join(to, self.name, pkg_name)
 
@@ -37,7 +37,7 @@ class Repository():
         print("  ... setup.py")
 
         with open(os.path.join(git_repo_manager.__path__[0],
-                               "templates/README.md.conf"), 'r') as setup_tmpl:
+                               "templates/setup.py.conf"), 'r') as setup_tmpl:
             content = setup_tmpl.read()
 
         content = content.replace("$name", self.name)
@@ -50,8 +50,8 @@ class Repository():
         content = content.replace("$url", self.remote_url)
         content = content.replace("$pkg_dir", pkg_name)
 
-        with open(os.path.join(git_repo_manager.__path__[0],
-                   "templates/setup.py"), 'w') as setup_file:
+        with open(os.path.join(to, self.name, "setup.py"),
+                  'w') as setup_file:
             setup_file.write(content)
 
         print("  ... README.md")
@@ -62,8 +62,8 @@ class Repository():
         content = content.replace("$name", self.name)
         content = content.replace("$description", self.author)
 
-        with open(os.path.join(git_repo_manager.__path__[0],
-                   "templates/README.md"), 'w') as rdm_file:
+        with open(os.path.join(to, self.name, "README.md"),
+                  'w') as rdm_file:
             rdm_file.write(content)
 
         self.commit_changes()

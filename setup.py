@@ -6,7 +6,7 @@ from git_repo_manager import __version__ as Version
 setup(
     name=u'git-repo-manager',
     version=Version,
-    description=u"A simple script that helps you manage your git repos",
+    description=u"A simple library that helps you manage your git repos",
     long_description=u'''
     git_repo_manager allows users to create new git repositories based on a well defined template.
 

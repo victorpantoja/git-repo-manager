@@ -1,3 +1,4 @@
+#!/usr/bin/python
 # -*- coding: utf-8 -*-
 from git_repo_manager import __version__ as Version
 from git_repo_manager.classes import GitoriousRepository 
