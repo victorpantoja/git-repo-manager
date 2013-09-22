@@ -1,5 +1,8 @@
 # -*- coding: utf-8 -*-
+from simple_manager.utils import git_add
 from simple_manager.utils import git_clone
+from simple_manager.utils import git_commit
+from simple_manager.utils import git_push
 from shutil import copytree
 
 import os
@@ -19,8 +22,10 @@ class Repository():
         self.email = email
         self.version = version
 
-    def commit_changes(self):
-        print("Commiting changes to {0}").format(self.remote_url)
+    def commit_changes(self, workspace):
+        git_add(self.name, workspace)
+        git_commit(workspace, self.name)
+        git_push(self.name, workspace)
 
     def extract_repo(self, frm, to):
         import git_repo_manager
@@ -66,7 +71,7 @@ class Repository():
                   'w') as rdm_file:
             rdm_file.write(content)
 
-        self.commit_changes()
+        self.commit_changes(to)
 
 
 class GitoriousRepository(Repository):

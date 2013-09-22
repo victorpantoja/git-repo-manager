@@ -6,6 +6,7 @@ from optparse import OptionParser
 
 import os
 import sys
+import shutil
 
 def validate(options):
     if not os.path.isdir(options.frm):
@@ -86,7 +87,8 @@ def main(argv):
             print("Old files not removed.")
             sys.exit(0)
         elif ans == 'y' or ans == 'Y':
-            print("Removing files...'")
+            print("Removing directory {0}...").format(options.frm)
+            shutil.rmtree(options.frm)
 
 if __name__ == "__main__":
     main(sys.argv[1:])
