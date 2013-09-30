@@ -1,8 +1,11 @@
 # -*- coding: utf-8 -*-
+from jenkins import Jenkins
 from simple_manager.utils import git_add
 from simple_manager.utils import git_clone
 from simple_manager.utils import git_commit
-from simple_manager.utils import git_push
+from simple_manager.utils import git_push_branch
+from simple_manager.utils import git_push_tag
+from simple_manager.utils import git_tag
 from shutil import copytree
 
 import os
@@ -25,7 +28,11 @@ class Repository():
     def commit_changes(self, workspace):
         git_add(self.name, workspace)
         git_commit(workspace, self.name)
-        git_push(self.name, workspace)
+        git_push_branch(workspace, self.name, "master")
+
+    def tag(self, workspace, project, version):
+        git_tag(workspace, project, version, "Migration package to a new respository.")
+        git_push_tag(workspace, project)
 
     def extract_repo(self, frm, to):
         import git_repo_manager
@@ -72,6 +79,17 @@ class Repository():
             rdm_file.write(content)
 
         self.commit_changes(to)
+        self.tag(to, self.name, self.version)
+
+    def config_jenkins(self, jenkins_url, jenkins_config_file, job_name):
+        ci = Jenkins(url=jenkins_url)
+
+        config = ""
+        with open(jenkins_config_file, "r") as config_file:
+            config = config_file.read()
+
+        config_file.close()
+        ci.create_job(job_name, config)
 
 
 class GitoriousRepository(Repository):

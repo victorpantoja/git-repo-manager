@@ -81,6 +81,11 @@ def main(argv):
         repo.version = version
         
         repo.extract_repo(frm=options.frm, to=options.to)
+        
+        ans = raw_input("Configure jenkins for ? [y] [n] ".format(repo.name))
+        if ans == 'y' or ans == 'Y':
+            print("Removing directory {0}...").format(options.frm)
+
 
         ans = raw_input("Remove old files at {0}? [y] [n] ".format(options.frm))
         if ans == 'n' or ans == 'N':

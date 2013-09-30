@@ -28,6 +28,7 @@ setup(
     scripts=['git_repo_manager/git-repo-manager.py'],
 
     install_requires=[
-        "simple-dependencies-manager"
+        "simple-dependencies-manager==0.5.0",
+        "python-jenkins==0.2.1"
     ]
 )
